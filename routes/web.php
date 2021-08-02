@@ -1,9 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\GuruController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\PelangganController;
+use App\Http\Controllers\SiswaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -15,40 +16,22 @@ use App\Http\Controllers\PelangganController;
 |
 */
 
-Route::get('/', function() {
-    return view('auth.login');
-});
-
-Route::view('/profile','profile');
-
-
-
-Auth::routes();
-
-
+Route::get('/', [HomeController::class, 'index']);
+Route::get('/guru', [GuruController::class, 'index']);
+Route::get('/user', [UserController::class, 'index']);
+Route::get('/siswa', [SiswaController::class, 'index']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Auth::routes();
 
-
-
-
-
-
-
-//hak akses untuk admin
-Route::group(['middleware' => 'admin'], function () {
-    Route::get('/students', [App\Http\Controllers\StudentController::class, 'index']);
-    Route::post('/students', [App\Http\Controllers\StudentController::class, 'store']);
-    Route::get('/students/create', [App\Http\Controllers\StudentController::class, 'create']);
-    Route::view('/document','document');
+Route::group(['middleware' => 'admin'], function(){
+    Route::view('/document', 'document');
+    Route::get('/siswa', [App\Http\Controllers\SiswaController::class, 'index']);
+    Route::post('/siswa', [App\Http\Controllers\SiwaController::class, 'store']);
+    Route::get('/siswa/create', [App\Http\Controllers\SiswaController::class, 'create']);
 });
 
-Route::group(['middleware' => 'user'], function () {
-//user
-Route::get('/user', [UserController::class, 'index'])->name('user');
+Route::group(['middlware' => 'user'], function(){
+    Route::get('/user', [UserController::class, 'index'])->name('user');
 });
 
-Route::group(['middleware' => 'pelanggan'], function () {
-//pelanggan
-Route::get('/pelanggan', [PelangganController::class, 'index'])->name('pelanggan');
-});

@@ -129,9 +129,8 @@
               <a href="#"><i class="fa fa-circle text-success"></i>
               @if (auth()->user()->level==1)
               Admin
-              @elseif (auth()->user()->level==1)
+              @elseif (auth()->user()->level==2)
               User
-
               @endif
               </a>
             </div>
